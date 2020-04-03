@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title id="title">დამმარცვლელი</title>
+    <meta charset="utf-8" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/MyCSS.css" rel="stylesheet" />
+
+    <script src="Scripts/clipboard.min.js"></script>
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+
+    <style>
+        #my-modal {
+            display: block;
+            background-color: rgba(50, 138, 130, 0.66);
+        }
+    </style>
+</head>
+<body class="panel-body bodyBackground Site">
+    <main class="Site-content">
+        <noscript class="center-block h3" style="text-align:center">
+            <div id="my-modal" class="modal fade in pHelp">
+                <div class="modal-dialog" style="width: 820px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color: #a94442;">გაფრთხილება! WARNING!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span class="h4">
+                                გთხოვთ ჩართოთ "JAVASCRIPT"-ი თქვენს ბრაუზერში
+                                <br /><br />
+                                PLEASE ENABLE "JAVASCRIPT" IN YOUR BROWSER
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </noscript>
+        <div class="row">
+            <div class="col-xs-12">
+                <a class="btn pHelp myHelpButton" id="btnHelp" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-cog"></span> დახმარება</a>
+                <div style="float:right;margin-top: 3px;">
+                    <img class="flag" id="imgEn" src="Content/United-Kingdom_flag.png" onclick="ChangeCurrentLanguage('en')" />
+                    <img class="flag" id="imgGe" src="Content/Georgia_flag.png" onclick="ChangeCurrentLanguage('ge')" />
+                </div>
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title btnFont" id="helpTitle"><b>დახმარება</b></h4>
+                            </div>
+                            <div class="modal-body btnFont" id="helpContent">
+                                <p>სიტყვის დამყოფი არის უფასო ელექტრონული ორ ენოვანი (ქართულ-ინგლისური) პროგრამა, რომელიც ტექსტს ავტომატურად ყოფს მარცვლებად.</p>
+                                <p>
+                                    თავსებადია მუსიკალური ნოტაციის პროგრამებთან (მაგ: <a href="http://www.finalemusic.com/" target="_blank">Finale</a>).  ასევე, მისი გამოყენება შესაძლებელია სასწავლო მიზნით,
+                                    ქართული ენის შესწავლით დაინტერესებულ უცხოელთათვის. აქვს ქართულ-ლათინური ტრანსლიტერაციის ფუნქცია.
+                                </p>
+                                <p>
+                                    <b>შეზღუდვები:</b><br />
+                                    მარცვლავს მხოლოდ ქართული ენის სიტყვათა დამარცვლის წესების გათვალისწინებით (ინგლისურ ვერსიაშიც).
+                                    ტრანსლიტერაცია შეუძლია მხოლოდ ქართულიდან ლათინურში.
+                                    ლათინური ტრანსლიტერაციისას წინადადებას არ იწყებს დიდი ასოებით.
+                                </p>
+                                <p>შენიშვნები მოგვწერეთ შემდეგ მისამართზე: <b class="btnFont">wordhyphenator@gmail.com</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <textarea id="txtText" style="resize: none;" class="form-control Shadow" rows="8" placeholder="შეიყვანეთ ტექსტი..." onselect="SelectedVowelCount()"
+                              onmousedown="ResetSelectedTextCount()"></textarea>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="text-center">
+                        <a id="btnCopy" class="btn btnFont myColor myHelpButton" data-clipboard-action="copy" data-clipboard-target="#txtResult"><span class="glyphicon glyphicon-copy"></span> დააკოპირე</a>
+                        <a id="btnSplit" class="btn btnFont myColor myHelpButton" onclick="Split()"><span class="glyphicon glyphicon-ok"></span> დაყავი</a>
+                        <a id="btnClear" class="btn btnFont myColor myHelpButton" onclick="Clear()"><span class="glyphicon glyphicon-remove"></span> წაშალე</a>
+                        <a id="btnUndo" class="btn btnFont myColor myHelpButton" onclick="UnSplit()"><span class="glyphicon glyphicon-share-alt rotateHorizontal"></span> შეაერთე</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <p id="lblinformation" class="label label-info"></p>
+                    <textarea id="txtResult" style="background-color: white;resize: none;" class="form-control Shadow" rows="8" placeholder="იხილეთ შედეგი..."
+                              readonly="readonly"></textarea>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-xs-8 col-xs-offset-2 text-center hidden" id="convertInfo">
+                    <span class="label" id="convertTo">დააკონვერტირე ტექსტი:</span>
+                    <span class="btn btnFont myHelpButton" onclick="GetResultByType('toGe')" id="convertToGeorgia">ქართულში</span>
+                    <span class="btn btnFont myHelpButton" onclick="GetResultByType('toEn')" id="convertToEnglish">ლათინურში <small>(რეკომენდებულია Finale-სთვის)</small></span>
+                    <span class="btn btnFont myHelpButton" onclick="GetResultByType('toFullEnglish')" id="convertToEnglishTrascript">ლათინურში <small>(ტრანსლიტერაციით)</small></span>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <p class="text-left h5 fontColor customColor pHelp" id="countOfGrains">მარცვლების რაოდენობა: <span id="lblCharCount" class="customColor"></span></p>
+                <p class="text-left h5 fontColor customColor pHelp" id="countOfGrainsInSelectedText">მარცვლების რაოდენობა მონიშნულ ტექსტში: <span id="SelectedVowelCount" class="customColor"></span></p>
+            </div>
+        </div>
+        <br />
+    </main>
+
+    <footer>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="text-center pHelp fontColor" id="footer">ყველა უფლება დაცულია &copy; <span id="lblAuthor">ავტორი: გიგა შუბითიძე</span> 2016 - <span id="getDate"></span> წელი <span class="pull-right">ვერსია 1.0.0</span></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
+<script src="Scripts/Core.js"></script>
